@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.study.todolist.repository.TodoMapper">
+<!--    파라미터 타입 생략 가능-->
+    <insert id="save">
+        insert into todo_tb
+        values (
+            0,
+            #{userId},
+            #{title},
+            #{content},
+            #{important},
+            #{busy},
+            1,
+            #{todoDateTime},
+            now(),
+            now()
+        )
+    </insert>
+    <update id="changeStatus">
+        update
+            todo_tb
+        set
+            status = if(status = 1, 2, 1) <!-- 기존에 상태가 1이면 2로 바꾸고 1이 아니면 1로 바꿔라 -->
+        where
+            todoId = #{todoId}
+    </update>
+    <update id="modify">
+        update
+            todo_tb
+        set
+            title = #{title},
+            content = #{content},
+            todoDateTime = #{todoDateTime},
+            important = #{important},
+            busy = #{busy},
+            status = #{status}
+        where
+            todoId = #{todoId}
+    </update>
+    <select id="findAll" resultType="com.study.todolist.entity.Todo">
+        select
+            todoId,
+            userId,
+            title,
+            content,
+            important,
+            busy,
+            status,
+            todoDateTime
+        from
+            todo_tb
+        order by
+            todoDateTime
+    </select>
+    <select id="getTodoCounts" resultType="com.study.todolist.entity.TodoCounts">
+        select
+            (select
+                count(*)
+            from
+                todo_tb
+            where
+                status = 1) as 'all', <!-- 여기서 설정한 이름이 dto 변수명과 동일해야함-->
+
+            (select
+                count(*)
+            from
+                todo_tb
+            where
+                status = 1
+                and todoDateTime like concat(substr(now(), 1, 10), "%")) as 'today',
+            (select
+                count(*)
+            from
+                todo_tb
+            where
+                status = 1
+                and important = 1) as 'important',
+
+            (select
+                count(*)
+            from
+                todo_tb
+            where
+                status = 1
+                and busy = 1) as 'busy',
+
+            (select
+                count(*)
+            from
+                todo_tb
+            where
+                status = 2) as 'complete';
+    </select>
+    <delete id="deleteByTodoId">
+        delete
+        from
+            todo_tb
+        where
+            todoId = #{todoId}
+    </delete>
+</mapper>

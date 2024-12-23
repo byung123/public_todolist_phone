@@ -1,0 +1,70 @@
+1. Todo - 요구사항
+	- 등록
+		- 일시를 선택해서 등록할 수 있게끔(시간까지 선택)
+		- 우선순위(중요도 4단계) 
+			- 중요O, 급함O
+			- 중요O, 급함X
+			- 중요X, 급함O
+			- 중요X, 급함X
+	- 조회
+		- 일별, 월별, 년도별 3가지 모두 할 예정 (필터를 줄 것이다)
+		- 완료, 미완료
+		- 중요도
+		- 정렬(수정일시기준)
+	- 수정
+		- 완료, 미완료
+		- Todo 내용
+		- 중요도
+		- 일시
+	- 삭제
+		- TodoID 기준
+	- 인증
+		- 회원가입
+		- 로그인
+		- 로그아웃
+		- 비밀번호 변경 (마이페이지)
+
+2. 데이터베이스 (테이블 설계) - todolist_study_db
+	- 테이블
+		- todo_tb
+			- todoId		(PK, NN, AI)
+			- userId		(NN) (원래는 외래키로 사용하는데 안쓰는게 정신건강에 좋다) - 누가 작성했는지 알기 위해
+			- title		(NN)
+			- content		(NN)
+			- important	(NN)	values = 1, 2, (1일 수록 급한것) (참고로 0은 빈 값을 나타낼 수도 있기 때문에 잘 사용하지 않음)
+			- busy		(NN)	values = 1, 2
+			- status		(NN)	values = 1, 2
+			- todoDateTime	(NN)	yyyy-MM-dd hh:mm:ss (대문자M, 소문자m 구분위함)
+			- createDate	(NN)	yyyy-MM-dd hh:mm:ss
+			- updateDate	(NN)	yyyy-MM-dd hh:mm:ss
+		- user_tb
+			- userId		(PK, NN, AI)
+			- username	(NN, UQ)
+			- password	(NN)
+			- name		(NN)
+			- createDate	(NN)	yyyy-MM-dd hh:mm:ss
+			- updateDate	(NN)	yyyy-MM-dd hh:mm:ss
+
+3. 페이지 라우팅 주소
+	- path: / 			name: 메인페이지 or 대시보드
+	- path: /login(signin)	name: 로그인
+	- path: /join(signout)	name: 회원가입
+
+4. 기능별 모달
+	- Todo 등록
+	- Todo 수정
+	- 비밀번호 변경
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
